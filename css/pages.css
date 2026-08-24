@@ -335,6 +335,27 @@ img.attorney__photo {
   outline: none;
 }
 .field input::placeholder { color: rgba(45, 27, 34, 0.35); }
+
+.preview-form-notice {
+  margin: 14px 0 22px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--signal);
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--ink-60);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.article-page { max-width: 900px; margin: 0 auto; padding: 110px 48px 120px; }
+.article-page__meta { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 22px 0 48px; color: var(--ink-60); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.article-page h1 { max-width: 800px; font-size: clamp(44px, 6vw, 76px); line-height: 1.02; margin: 20px 0 28px; }
+.article-page h2 { font-size: clamp(28px, 3vw, 38px); line-height: 1.15; margin: 48px 0 14px; }
+.article-page p, .article-page li { font-size: 17px; line-height: 1.75; color: var(--ink-60); }
+.article-page ul { margin: 18px 0 0 24px; }
+.article-page__notice { margin-top: 56px; padding: 22px 24px; border-left: 4px solid var(--signal); background: rgba(255,255,255,.45); }
+.article-page__back { display: inline-block; margin-top: 44px; color: var(--cypress); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+
+@media (max-width: 700px) { .article-page { padding: 72px 20px 88px; } }
 .field select { color: rgba(45, 27, 34, 0.45); cursor: pointer; }
 .field input:focus, .field select:focus { border-bottom-color: var(--cypress); }
 .field--select { position: relative; }
@@ -365,6 +386,8 @@ img.attorney__photo {
   .attorney__photo { width: 100%; }
   .closer-row { flex-direction: column; align-items: flex-start; gap: 32px; padding: 56px 20px; }
   .contact-grid { grid-template-columns: 1fr; padding: 56px 20px 72px; gap: 56px; }
+  .contact-grid > .form-card { order: 1; }
+  .contact-grid > div { order: 2; }
   .contact-grid h1 { font-size: 42px; }
   .form-card { padding: 32px 24px; }
   .field-row { grid-template-columns: 1fr; }

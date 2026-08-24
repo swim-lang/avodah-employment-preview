@@ -575,6 +575,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; }
   .menu-btn { display: inline-flex; }
 }
 
+@media (max-width: 700px) {
+  .device-toggle { display: none; }
+}
+
 /* ---------- overlay menu (markup injected by site.js) ---------- */
 
 .menu-overlay {
