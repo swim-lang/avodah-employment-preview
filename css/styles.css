@@ -268,7 +268,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; }
 .paths__head { max-width: 720px; margin-bottom: 72px; }
 .paths__head h2 { font-size: 44px; line-height: 1.09; margin-bottom: 24px; }
 .paths__head p { font-size: 17px; line-height: 1.53; color: var(--ink-60); }
-.paths__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.paths__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
 .path-card {
   background: var(--signal);
   color: var(--travertine);

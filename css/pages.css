@@ -248,6 +248,15 @@ img.attorney__photo {
   object-position: center 20%;
   flex-shrink: 0;
 }
+.attorney__placeholder {
+  width: 380px;
+  height: 460px;
+  display: grid;
+  place-items: center;
+  background: rgba(59, 137, 114, 0.12);
+  border: 1px solid rgba(59, 137, 114, 0.35);
+}
+.attorney__placeholder img { width: 92px; opacity: 0.72; }
 .attorney .eyebrow { margin-bottom: 18px; }
 .attorney h2 { font-size: 56px; line-height: 1.04; color: var(--aubergine); margin-bottom: 24px; }
 .attorney > div > p { font-size: 16.5px; line-height: 1.58; color: var(--ink-60); max-width: 640px; margin-bottom: 28px; }
@@ -383,7 +392,7 @@ img.attorney__photo {
   .cards2, .cards3, .acards { grid-template-columns: 1fr; gap: 20px; }
   .steps4 { grid-template-columns: 1fr; gap: 36px; }
   .attorney { grid-template-columns: 1fr; padding: 56px 20px; gap: 36px; }
-  .attorney__photo { width: 100%; }
+  .attorney__photo, .attorney__placeholder { width: 100%; }
   .closer-row { flex-direction: column; align-items: flex-start; gap: 32px; padding: 56px 20px; }
   .contact-grid { grid-template-columns: 1fr; padding: 56px 20px 72px; gap: 56px; }
   .contact-grid > .form-card { order: 1; }

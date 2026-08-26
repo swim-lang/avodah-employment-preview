@@ -51,7 +51,7 @@
         <h2>A safe first step.</h2>
         <p class="preview-form-notice" tabindex="-1">Preview only. This form does not transmit or store information.</p>
         <div class="form-fields">
-          <div class="field field--select"><label>I am contacting Avodah as</label><select><option>Employer / Executive / Physician / Individual</option></select></div>
+          <div class="field field--select"><label for="contact-role">I am contacting Avodah as</label><select id="contact-role"><option value="">Choose one</option><option>Employer</option><option>Executive or professional</option><option>Physician or healthcare professional</option><option>Federal or state employee</option><option>Other individual</option></select></div>
           <div class="field-row">
             <div class="field"><label>Full name</label><input type="text" placeholder="Jane Calloway" /></div>
             <div class="field"><label>Organization, if applicable</label><input type="text" placeholder="Company or practice" /></div>
@@ -63,7 +63,7 @@
           </div>
           <div class="field-row">
             <div class="field"><label>City and state of the matter</label><input type="text" placeholder="Richmond, VA" /></div>
-            <div class="field field--select"><label>General topic</label><select><option>Agreement / Investigation / Claim…</option></select></div>
+            <div class="field field--select"><label for="contact-topic">General topic</label><select id="contact-topic"><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal EEO or MSPB matter</option><option>State grievance or administrative matter</option><option>Licensing or credentialing issue</option><option>Other employment matter</option></select></div>
           </div>
           <div class="field-row">
             <div class="field"><label>Important date or deadline</label><input type="text" placeholder="MM / DD / YYYY" /></div>
@@ -84,12 +84,13 @@
 
   <footer class="site-footer">
     <div class="site-footer__top">
-      <p class="site-footer__brand">A focused employment-law practice of Avodah Legal for Virginia employers, executives, physicians and selected complex workplace matters.</p>
+      <p class="site-footer__brand">A focused employment-law practice of Avodah Legal for Virginia employers, executives, physicians, government employees and selected complex workplace matters.</p>
       <div class="site-footer__col">
         <span class="site-footer__label">Practice</span>
         <a href="employers.html">Employers</a>
         <a href="executives.html">Executives</a>
         <a href="physicians.html">Physicians</a>
+        <a href="government-employees.html">Government Employees</a>
         <a href="investigations.html">Workplace Investigations</a>
       </div>
       <div class="site-footer__col">
