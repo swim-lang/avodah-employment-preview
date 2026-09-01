@@ -14,6 +14,7 @@
     document.documentElement.classList.add("flat");
   }
 
+
   /* ---------- reveals ---------- */
 
   function staggeredReveal(el) {
@@ -97,6 +98,44 @@
         notice.textContent = "Preview only. No information was sent.";
         notice.setAttribute("role", "status");
         notice.focus();
+      }
+    });
+  });
+
+  /* ---------- preview-only phone actions ---------- */
+
+  var headerCall = document.querySelector(".site-header__cta");
+  if (headerCall) {
+    if (headerCall.tagName === "A") headerCall.removeAttribute("href");
+    headerCall.classList.add("js-preview-call");
+    headerCall.setAttribute("aria-disabled", "true");
+    headerCall.setAttribute("title", "Preview only. CallRail number pending.");
+    var headerLabel = headerCall.querySelector(".btn__label");
+    if (headerLabel) headerLabel.textContent = "Call Avodah Employment";
+  }
+
+  var utility = document.querySelector(".utility-line");
+  if (utility) {
+    utility.textContent = "A deadline approaching? Call Avodah Employment. Preview number pending.";
+  }
+
+  var mobileCall = document.createElement("button");
+  mobileCall.className = "mobile-call-bar js-preview-call";
+  mobileCall.type = "button";
+  mobileCall.innerHTML = "<span>Call Avodah Employment</span><small>Preview number pending</small>";
+  document.body.appendChild(mobileCall);
+
+  document.querySelectorAll(".js-preview-call").forEach(function (control) {
+    control.addEventListener("click", function (event) {
+      event.preventDefault();
+      var notice = document.querySelector(".preview-call-notice");
+      if (notice) {
+        notice.textContent = "Preview only. Avodah's approved CallRail number and routing are still pending.";
+        notice.classList.add("is-active");
+        notice.setAttribute("role", "status");
+        notice.focus();
+      } else {
+        mobileCall.querySelector("small").textContent = "CallRail routing pending";
       }
     });
   });

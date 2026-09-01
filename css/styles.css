@@ -43,6 +43,10 @@ body.is-loading { overflow: hidden; }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 500; }
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 4px;
+}
 
 /* ---------- shared pieces ---------- */
 
@@ -76,6 +80,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  text-align: left;
 }
 .btn--sm { font-size: 13px; }
 .btn__chip {
@@ -261,6 +269,60 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; }
   color: var(--ivory-85);
 }
 .hero__ctas { display: flex; align-items: center; gap: 44px; }
+.preview-call-notice {
+  align-self: center;
+  margin-top: 22px;
+  color: var(--ivory-70);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+}
+.preview-call-notice.is-active { color: var(--travertine); }
+.mobile-call-bar { display: none; }
+
+/* ---------- homepage first-step conflict check ---------- */
+
+.home-intake {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(520px, 1.1fr);
+  gap: 88px;
+  padding: 110px var(--pad-x);
+  background: #ebe3d9;
+}
+.home-intake__intro .eyebrow { margin-bottom: 22px; }
+.home-intake__intro h2 { font-size: 46px; line-height: 1.14; margin-bottom: 24px; }
+.home-intake__intro p { max-width: 560px; color: var(--ink-60); font-size: 17px; line-height: 1.58; }
+.home-intake__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 36px;
+  border: 1px solid rgba(45, 27, 34, .24);
+  background: var(--travertine);
+}
+.home-intake__form > label, .home-intake__row label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.home-intake__form input[type="text"], .home-intake__form input[type="tel"], .home-intake__form input[type="email"], .home-intake__form select {
+  min-width: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(45, 27, 34, .35);
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 0 11px;
+  color: var(--aubergine);
+  font: 16px var(--font-sans);
+}
+.home-intake__row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.home-intake__consent { flex-direction: row !important; align-items: flex-start; text-transform: none !important; letter-spacing: 0 !important; }
+.home-intake__consent input { margin-top: 3px; accent-color: var(--aubergine); }
+.home-intake__consent span, .home-intake .preview-form-notice { color: var(--ink-60); font-size: 13px; line-height: 1.5; }
+.home-intake__form .btn { align-self: flex-start; margin-top: 4px; }
 
 /* ---------- paths ---------- */
 
@@ -642,6 +704,7 @@ body.menu-open .menu-overlay__links a { opacity: 1; transform: none; }
 
 @media (max-width: 860px) {
   :root { --pad-x: 20px; }
+  body { padding-bottom: 62px; }
   .site-header { padding: 18px 20px; }
   .lockup__wordmark { width: 98px; }
   .lockup__sub { font-size: 11.5px; width: 98px; }
@@ -663,6 +726,35 @@ body.menu-open .menu-overlay__links a { opacity: 1; transform: none; }
   .hero__title { font-size: 46px; line-height: 1.04; margin-bottom: 40px; }
   .hero__body { font-size: 16px; }
   .hero__ctas { flex-direction: column; align-items: flex-end; gap: 18px; }
+
+  .home-intake { grid-template-columns: 1fr; gap: 40px; padding: 72px 20px; }
+  .home-intake__intro h2 { font-size: 34px; }
+  .home-intake__form { padding: 26px 20px; }
+  .home-intake__row { grid-template-columns: 1fr; gap: 18px; }
+
+  .mobile-call-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    min-height: 62px;
+    padding: 12px 20px;
+    border: 0;
+    background: var(--signal);
+    color: var(--travertine);
+    font: 500 12px var(--font-sans);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    box-shadow: 0 -8px 24px rgba(45, 27, 34, .18);
+    cursor: pointer;
+  }
+  .mobile-call-bar small { font-size: 10px; letter-spacing: .04em; text-transform: none; color: rgba(243,238,231,.82); }
 
   /* paths */
   .paths { padding: 88px 20px; }
