@@ -105,10 +105,9 @@
     conversionPanel.setAttribute("aria-labelledby", "conversion-panel-title");
     conversionPanel.innerHTML = [
       '<div class="conversion-panel__intro">',
-      '<span class="eyebrow eyebrow--ivory-dim">A safe first step</span>',
-      '<h2 id="conversion-panel-title">Begin with a short conflict check.</h2>',
-      '<p>Calling is the fastest first step. If calling is not convenient, share only the basic names, topic and deadline. Detailed facts and documents can wait.</p>',
-      '<button class="btn btn--ivory js-preview-call" type="button"><span class="btn__label">Call now</span><span class="btn__chip" aria-hidden="true">&#8594;</span></button>',
+      '<span class="eyebrow eyebrow--ivory-dim">A simple first step</span>',
+      '<h2 id="conversion-panel-title">Tell us how we can help.</h2>',
+      '<p>Share only the basic names, topic and deadline. Avodah will use those details to determine whether it can speak with you and what should happen next. Detailed facts and documents can wait.</p>',
       '</div>',
       '<form class="conversion-panel__form" data-preview-form>',
       '<p class="preview-form-notice" tabindex="-1">Preview only. This form does not transmit or store information.</p>',
@@ -117,7 +116,7 @@
       '<label>Other parties or organizations involved<input type="text" /></label>',
       '<div class="conversion-panel__row"><label>General matter type<select><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal or state employee matter</option><option>Physician or licensing matter</option><option>Other employment matter</option></select></label><label>Important deadline<input type="text" inputmode="numeric" placeholder="MM / DD / YYYY" /></label></div>',
       '<label class="conversion-panel__consent"><input type="checkbox" /><span>Submitting this form does not create an attorney-client relationship. Do not send confidential information until Avodah confirms it can speak with you.</span></label>',
-      '<button class="btn btn--aubergine" type="submit"><span class="btn__label">Start the conflict check</span><span class="btn__chip" aria-hidden="true">&#8594;</span></button>',
+      '<button class="btn btn--aubergine" type="submit"><span class="btn__label">Submit Inquiry</span><span class="btn__chip" aria-hidden="true">&#8594;</span></button>',
       '</form>'
     ].join("");
     conversionMain.insertAdjacentElement("afterend", conversionPanel);
@@ -137,28 +136,33 @@
     });
   });
 
-  /* ---------- preview-only phone actions ---------- */
+  /* ---------- contact actions and future approved phone ---------- */
 
-  var headerCall = document.querySelector(".site-header__cta");
-  if (headerCall) {
-    if (headerCall.tagName === "A") headerCall.removeAttribute("href");
-    headerCall.classList.add("js-preview-call");
-    headerCall.setAttribute("aria-disabled", "true");
-    headerCall.setAttribute("title", "Preview only. CallRail number pending.");
-    var headerLabel = headerCall.querySelector(".btn__label");
-    if (headerLabel) headerLabel.textContent = "Call now";
+  // Leave these empty until Rose confirms the number, destination and routing.
+  // When approved, use a full display number and a digits-only tel value.
+  var approvedPhoneDisplay = "";
+  var approvedPhoneHref = "";
+  var headerContact = document.querySelector(".site-header__cta");
+  if (headerContact) {
+    if (headerContact.tagName === "A") headerContact.setAttribute("href", "contact.html");
+    headerContact.removeAttribute("aria-disabled");
+    headerContact.removeAttribute("title");
+    headerContact.classList.remove("js-preview-call");
+    var headerLabel = headerContact.querySelector(".btn__label");
+    if (headerLabel) headerLabel.textContent = "Contact Us";
   }
 
-  var utility = document.querySelector(".utility-line");
-  if (utility) {
-    utility.textContent = "A deadline approaching? Call Avodah Employment. Preview number pending.";
+  if (document.querySelector(".article-page") && !document.querySelector(".primary-nav")) {
+    var compactHeader = document.querySelector(".site-header");
+    var compactContact = document.querySelector(".site-header__cta");
+    if (compactHeader && compactContact) {
+      var compactNav = document.createElement("nav");
+      compactNav.className = "primary-nav";
+      compactNav.setAttribute("aria-label", "Primary");
+      compactNav.innerHTML = '<a href="employers.html">Employers</a><a href="executives.html">Executives</a><a href="physicians.html">Physicians</a><a href="government-employees.html">Federal and State Employees</a><a href="investigations.html">Investigations</a><a href="insights.html">Insights</a>';
+      compactHeader.insertBefore(compactNav, compactContact);
+    }
   }
-
-  var mobileCall = document.createElement("button");
-  mobileCall.className = "mobile-call-bar js-preview-call";
-  mobileCall.type = "button";
-  mobileCall.innerHTML = "<span>Call now</span><small>Avodah Employment · preview number pending</small>";
-  document.body.appendChild(mobileCall);
 
   if (document.querySelector(".article-page") && document.querySelector(".primary-nav") && !document.querySelector(".menu-btn")) {
     var articleMenu = document.createElement("button");
@@ -170,33 +174,28 @@
 
   var siteHeader = document.querySelector(".site-header");
   var menuControl = document.querySelector(".menu-btn");
-  if (siteHeader && headerCall && !siteHeader.querySelector(".header-actions")) {
+  if (siteHeader && headerContact && !siteHeader.querySelector(".header-actions")) {
     var headerActions = document.createElement("div");
     headerActions.className = "header-actions";
-    siteHeader.insertBefore(headerActions, headerCall);
-    headerActions.appendChild(headerCall);
-    var headerContact = document.createElement("a");
-    headerContact.className = "header-contact";
-    headerContact.href = "contact.html";
-    headerContact.textContent = "Contact";
+    siteHeader.insertBefore(headerActions, headerContact);
+    if (approvedPhoneDisplay && approvedPhoneHref) {
+      var headerPhone = document.createElement("a");
+      headerPhone.className = "header-phone";
+      headerPhone.href = "tel:" + approvedPhoneHref;
+      headerPhone.textContent = approvedPhoneDisplay;
+      headerPhone.setAttribute("aria-label", "Call Avodah Employment at " + approvedPhoneDisplay);
+      headerActions.appendChild(headerPhone);
+    }
     headerActions.appendChild(headerContact);
     if (menuControl) headerActions.appendChild(menuControl);
   }
 
-  document.querySelectorAll(".js-preview-call").forEach(function (control) {
-    control.addEventListener("click", function (event) {
-      event.preventDefault();
-      var notice = document.querySelector(".preview-call-notice");
-      if (notice) {
-        notice.textContent = "Preview only. Avodah's approved CallRail number and routing are still pending.";
-        notice.classList.add("is-active");
-        notice.setAttribute("role", "status");
-        notice.focus();
-      } else {
-        mobileCall.querySelector("small").textContent = "CallRail routing pending";
-      }
-    });
-  });
+  if (approvedPhoneDisplay && approvedPhoneHref) {
+    var phoneUtility = document.createElement("div");
+    phoneUtility.className = "header-phone-utility";
+    phoneUtility.innerHTML = '<a href="tel:' + approvedPhoneHref + '" aria-label="Call Avodah Employment at ' + approvedPhoneDisplay + '">' + approvedPhoneDisplay + '</a>';
+    siteHeader.insertAdjacentElement("afterend", phoneUtility);
+  }
 
   /* ---------- overlay menu (tablet / mobile) ---------- */
 
@@ -226,7 +225,7 @@
     });
     var contact = document.createElement("a");
     contact.href = "contact.html";
-    contact.textContent = "Start an Intake";
+    contact.textContent = "Contact Us";
     contact.style.transitionDelay = 0.06 + navLinks.length * 0.05 + "s";
     linksWrap.appendChild(contact);
     overlay.appendChild(linksWrap);
