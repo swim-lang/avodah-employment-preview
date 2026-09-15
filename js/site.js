@@ -114,7 +114,7 @@
       '<label>Full name<input type="text" autocomplete="name" /></label>',
       '<label>Phone number or email<input type="text" autocomplete="email" /></label>',
       '<label>Other parties or organizations involved<input type="text" /></label>',
-      '<div class="conversion-panel__row"><label>General matter type<select><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal or state employee matter</option><option>Physician or licensing matter</option><option>Other employment matter</option></select></label><label>Important deadline<input type="text" inputmode="numeric" placeholder="MM / DD / YYYY" /></label></div>',
+      '<div class="conversion-panel__row"><label>General matter type<select><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal or state manager matter</option><option>Physician or licensing matter</option><option>Other employment matter</option></select></label><label>Important deadline<input type="text" inputmode="numeric" placeholder="MM / DD / YYYY" /></label></div>',
       '<label class="conversion-panel__consent"><input type="checkbox" /><span>Submitting this form does not create an attorney-client relationship. Do not send confidential information until Avodah confirms it can speak with you.</span></label>',
       '<button class="btn btn--aubergine" type="submit"><span class="btn__label">Submit Inquiry</span><span class="btn__chip" aria-hidden="true">&#8594;</span></button>',
       '</form>'

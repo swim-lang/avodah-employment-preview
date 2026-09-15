@@ -251,12 +251,21 @@ img.attorney__photo {
 .attorney__placeholder {
   width: 380px;
   height: 460px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   background: rgba(59, 137, 114, 0.12);
   border: 1px solid rgba(59, 137, 114, 0.35);
 }
 .attorney__placeholder img { width: 92px; opacity: 0.72; }
+.attorney__placeholder span {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(45, 27, 34, 0.58);
+}
 .attorney .eyebrow { margin-bottom: 18px; }
 .attorney h2 { font-size: 56px; line-height: 1.04; color: var(--aubergine); margin-bottom: 24px; }
 .attorney > div > p { font-size: 16.5px; line-height: 1.58; color: var(--ink-60); max-width: 640px; margin-bottom: 28px; }
@@ -271,6 +280,38 @@ img.attorney__photo {
 }
 .team-note { padding: 0 var(--pad-x) 80px; }
 .team-note p { font-size: 12.5px; letter-spacing: 0.04em; line-height: 1.5; color: rgba(45, 27, 34, 0.5); max-width: 760px; }
+
+/* ---------- attorney profile ---------- */
+
+.profile {
+  padding: 90px var(--pad-x) 110px;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 760px);
+  gap: 72px;
+  justify-content: center;
+  align-items: start;
+}
+.profile__aside { position: sticky; top: 126px; }
+.profile__aside .attorney__placeholder { width: 100%; }
+.profile__contact {
+  margin-top: 24px;
+  padding: 28px;
+  border: 1px solid rgba(45, 27, 34, 0.18);
+}
+.profile__contact .eyebrow { margin-bottom: 18px; }
+.profile__contact p,
+.profile__contact a { font-size: 15px; line-height: 1.65; color: var(--ink-60); }
+.profile__contact a { display: block; overflow-wrap: anywhere; }
+.profile__contact a:hover { color: var(--cypress); }
+.profile__body > p,
+.profile__body li { font-size: 17px; line-height: 1.72; color: var(--ink-60); }
+.profile__body > p + p { margin-top: 22px; }
+.profile__body h2 { font-size: clamp(32px, 4vw, 48px); line-height: 1.1; margin: 54px 0 18px; }
+.profile__body ul { columns: 2; column-gap: 44px; margin: 18px 0 0 22px; }
+.profile__body li { break-inside: avoid; margin-bottom: 10px; padding-right: 16px; }
+.profile__recognition { margin-top: 48px; padding: 28px; background: rgba(59, 137, 114, 0.12); border-left: 4px solid var(--cypress); }
+.profile__recognition h3 { font-size: 26px; margin-bottom: 8px; }
+.profile__recognition p { font-size: 15px; line-height: 1.58; color: var(--ink-60); }
 
 /* ---------- filters (Insights) ---------- */
 
@@ -393,6 +434,9 @@ img.attorney__photo {
   .steps4 { grid-template-columns: 1fr; gap: 36px; }
   .attorney { grid-template-columns: 1fr; padding: 56px 20px; gap: 36px; }
   .attorney__photo, .attorney__placeholder { width: 100%; }
+  .profile { grid-template-columns: 1fr; padding: 56px 20px 80px; gap: 48px; }
+  .profile__aside { position: static; }
+  .profile__body ul { columns: 1; }
   .closer-row { flex-direction: column; align-items: flex-start; gap: 32px; padding: 56px 20px; }
   .contact-grid { grid-template-columns: 1fr; padding: 56px 20px 72px; gap: 56px; }
   .contact-grid > .form-card { order: 1; }
