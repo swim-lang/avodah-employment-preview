@@ -109,30 +109,115 @@
       '<h2 id="conversion-panel-title">Tell us how we can help.</h2>',
       '<p>Share only the basic names, topic and deadline. Avodah will use those details to determine whether it can speak with you and what should happen next. Detailed facts and documents can wait.</p>',
       '</div>',
-      '<form class="conversion-panel__form" data-preview-form>',
+      '<form class="conversion-panel__form" data-preview-form data-intake-form>',
       '<p class="preview-form-notice" tabindex="-1">Preview only. This form does not transmit or store information.</p>',
-      '<label>Full name<input type="text" autocomplete="name" /></label>',
-      '<label>Phone number or email<input type="text" autocomplete="email" /></label>',
-      '<label>Other parties or organizations involved<input type="text" /></label>',
-      '<div class="conversion-panel__row"><label>General matter type<select><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal or state manager matter</option><option>Physician or licensing matter</option><option>Other employment matter</option></select></label><label>Important deadline<input type="text" inputmode="numeric" placeholder="MM / DD / YYYY" /></label></div>',
-      '<label class="conversion-panel__consent"><input type="checkbox" /><span>Submitting this form does not create an attorney-client relationship. Do not send confidential information until Avodah confirms it can speak with you.</span></label>',
+      '<div class="form-trap" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>',
+      '<input type="hidden" name="role" value="Website visitor" />',
+      '<label>Full name<input type="text" name="name" autocomplete="name" maxlength="120" required /></label>',
+      '<label>Phone number or email<input type="text" name="contact" maxlength="180" required /></label>',
+      '<label>Other parties or organizations involved<input type="text" name="otherParties" maxlength="500" /></label>',
+      '<div class="conversion-panel__row"><label>General matter type<select name="matterType" required><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal or state manager matter</option><option>Physician or licensing matter</option><option>Other employment matter</option></select></label><label>Important deadline<input type="text" name="deadline" maxlength="80" inputmode="numeric" placeholder="MM / DD / YYYY" /></label></div>',
+      '<label class="conversion-panel__consent"><input type="checkbox" name="consent" required /><span>Submitting this form does not create an attorney-client relationship. Do not send confidential information until Avodah confirms it can speak with you.</span></label>',
       '<button class="btn btn--aubergine" type="submit"><span class="btn__label">Submit Inquiry</span><span class="btn__chip" aria-hidden="true">&#8594;</span></button>',
       '</form>'
     ].join("");
     conversionMain.insertAdjacentElement("afterend", conversionPanel);
   }
 
-  /* ---------- preview-only forms ---------- */
+  /* ---------- inquiry forms ---------- */
 
-  document.querySelectorAll("form[data-preview-form]").forEach(function (form) {
+  var intakeForms = document.querySelectorAll("form[data-intake-form]");
+  var intakeEndpoint = "/api/intake";
+  var intakeEnabled = false;
+  var staticPreviewHost =
+    location.hostname === "swim-lang.github.io" ||
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1" ||
+    location.protocol === "file:";
+
+  function setFormNotice(form, message, isError) {
+    var notice = form.querySelector(".preview-form-notice");
+    if (!notice) return;
+    notice.textContent = message;
+    notice.setAttribute("role", isError ? "alert" : "status");
+    notice.classList.toggle("is-error", Boolean(isError));
+    notice.focus();
+  }
+
+  function formPayload(form) {
+    var data = new FormData(form);
+    var payload = {};
+    data.forEach(function (value, key) {
+      payload[key] = value;
+    });
+    payload.consent = data.has("consent");
+    payload.page = location.pathname;
+    return payload;
+  }
+
+  function enableIntakeForms() {
+    intakeEnabled = true;
+    intakeForms.forEach(function (form) {
+      var notice = form.querySelector(".preview-form-notice");
+      if (notice) notice.textContent = "Your information will be sent to Avodah's intake team. Please do not include confidential documents or a detailed narrative.";
+    });
+  }
+
+  if (intakeForms.length && !staticPreviewHost) {
+    fetch(intakeEndpoint, { method: "GET", headers: { Accept: "application/json" } })
+      .then(function (response) {
+        return response.ok ? response.json() : { enabled: false };
+      })
+      .then(function (result) {
+        if (result.enabled === true) enableIntakeForms();
+      })
+      .catch(function () {
+        intakeEnabled = false;
+      });
+  }
+
+  intakeForms.forEach(function (form) {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      var notice = form.querySelector(".preview-form-notice");
-      if (notice) {
-        notice.textContent = "Preview only. No information was sent.";
-        notice.setAttribute("role", "status");
-        notice.focus();
+
+      if (!intakeEnabled) {
+        setFormNotice(form, "Preview only. No information was sent.", false);
+        return;
       }
+
+      var payload = formPayload(form);
+      if (!payload.phone && !payload.email && !payload.contact) {
+        setFormNotice(form, "Please enter a phone number or email address.", true);
+        return;
+      }
+
+      var submit = form.querySelector('button[type="submit"]');
+      if (submit) submit.disabled = true;
+      setFormNotice(form, "Sending your inquiry...", false);
+
+      fetch(intakeEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (response) {
+          return response.json().catch(function () {
+            return { ok: false, message: "Your inquiry could not be sent. Please contact Avodah directly." };
+          }).then(function (result) {
+            if (!response.ok || result.ok !== true) throw new Error(result.message || "Your inquiry could not be sent. Please contact Avodah directly.");
+            return result;
+          });
+        })
+        .then(function () {
+          form.reset();
+          setFormNotice(form, "Thank you. Your inquiry was sent to Avodah's intake team.", false);
+        })
+        .catch(function (error) {
+          setFormNotice(form, error.message || "Your inquiry could not be sent. Please contact Avodah directly.", true);
+        })
+        .finally(function () {
+          if (submit) submit.disabled = false;
+        });
     });
   });
 

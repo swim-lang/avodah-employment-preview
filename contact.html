@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=20260915a" />
-  <link rel="stylesheet" href="css/pages.css?v=20260915a" />
+  <link rel="stylesheet" href="css/styles.css?v=20260915b" />
+  <link rel="stylesheet" href="css/pages.css?v=20260915b" />
 </head>
 <body>
 
@@ -46,24 +46,25 @@
           <div><span class="site-footer__label">Norfolk</span><br /><span>500 E Main Street, Suite 1522, Norfolk, VA 23510</span></div>
         </div>
       </div>
-      <form class="form-card reveal-load" style="--d: .25s" data-preview-form>
+      <form class="form-card reveal-load" style="--d: .25s" data-preview-form data-intake-form>
         <span class="eyebrow eyebrow--signal">Contact Avodah</span>
         <h2>Tell us how we can help.</h2>
         <p class="preview-form-notice" tabindex="-1">Preview only. This form does not transmit or store information.</p>
+        <div class="form-trap" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
         <div class="form-fields">
-          <div class="field field--select"><label for="contact-role">I am contacting Avodah as</label><select id="contact-role"><option value="">Choose one</option><option>Employer</option><option>Executive or professional</option><option>Physician or healthcare professional</option><option>Federal or state manager</option><option>Other individual</option></select></div>
+          <div class="field field--select"><label for="contact-role">I am contacting Avodah as</label><select id="contact-role" name="role" required><option value="">Choose one</option><option>Employer</option><option>Executive or professional</option><option>Physician or healthcare professional</option><option>Federal or state manager</option><option>Other individual</option></select></div>
           <div class="field-row">
-            <div class="field"><label>Full name</label><input type="text" placeholder="Jane Calloway" /></div>
-            <div class="field"><label>Phone</label><input type="tel" placeholder="Your phone number" /></div>
+            <div class="field"><label for="contact-name">Full name</label><input id="contact-name" type="text" name="name" autocomplete="name" maxlength="120" placeholder="Jane Calloway" required /></div>
+            <div class="field"><label for="contact-phone">Phone</label><input id="contact-phone" type="tel" name="phone" autocomplete="tel" maxlength="50" placeholder="Your phone number" /></div>
           </div>
-          <div class="field"><label>Other parties or organizations involved</label><input type="text" placeholder="Names help us determine whether we can speak with you" /></div>
+          <div class="field"><label for="contact-parties">Other parties or organizations involved</label><input id="contact-parties" type="text" name="otherParties" maxlength="500" placeholder="Names help us determine whether we can speak with you" /></div>
           <div class="field-row">
-            <div class="field"><label>Email</label><input type="email" placeholder="name@company.com" /></div>
-            <div class="field field--select"><label for="contact-topic">General topic</label><select id="contact-topic"><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal EEO or MSPB matter</option><option>State grievance or administrative matter</option><option>Licensing or credentialing issue</option><option>Other employment matter</option></select></div>
+            <div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" name="email" autocomplete="email" maxlength="160" placeholder="name@company.com" /></div>
+            <div class="field field--select"><label for="contact-topic">General topic</label><select id="contact-topic" name="matterType" required><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal EEO or MSPB matter</option><option>State grievance or administrative matter</option><option>Licensing or credentialing issue</option><option>Other employment matter</option></select></div>
           </div>
-          <div class="field"><label>Important date or deadline</label><input type="text" inputmode="numeric" placeholder="MM / DD / YYYY" /></div>
+          <div class="field"><label for="contact-deadline">Important date or deadline</label><input id="contact-deadline" type="text" name="deadline" maxlength="80" inputmode="numeric" placeholder="MM / DD / YYYY" /></div>
           <label class="form-consent">
-            <input type="checkbox" />
+            <input type="checkbox" name="consent" required />
             <span>I understand that submitting this form does not create an attorney-client relationship and that I should not send confidential information until Avodah confirms it can speak with me.</span>
           </label>
           <button class="btn btn--aubergine" type="submit">
@@ -117,6 +118,6 @@
     </div>
   </footer>
 
-  <script src="js/site.js?v=20260915a"></script>
+  <script src="js/site.js?v=20260915b"></script>
 </body>
 </html>

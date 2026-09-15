@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- Jost stands in for Futura PT Book until the Adobe Fonts kit is added -->
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=20260915a" />
+  <link rel="stylesheet" href="css/styles.css?v=20260915b" />
 </head>
 <body class="is-loading">
 
@@ -78,22 +78,23 @@
         <h2 class="reveal" style="--d: .12s">Tell us how we can help.</h2>
         <p class="reveal" style="--d: .24s">Start with your role, the people or organizations involved and any date that matters. Avodah will use those basic details to determine whether it can speak with you and what should happen next. Detailed facts and documents can wait.</p>
       </div>
-      <form class="home-intake__form reveal" style="--d: .18s" data-preview-form>
+      <form class="home-intake__form reveal" style="--d: .18s" data-preview-form data-intake-form>
         <p class="preview-form-notice" tabindex="-1">Preview only. This form does not transmit or store information.</p>
+        <div class="form-trap" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
         <div class="home-intake__row">
-          <label>I am contacting Avodah as<select><option value="">Choose one</option><option>Employer</option><option>Executive or professional</option><option>Physician or healthcare professional</option><option>Federal or state manager</option><option>Other individual</option></select></label>
-          <label>Full name<input type="text" autocomplete="name" /></label>
+          <label>I am contacting Avodah as<select name="role" required><option value="">Choose one</option><option>Employer</option><option>Executive or professional</option><option>Physician or healthcare professional</option><option>Federal or state manager</option><option>Other individual</option></select></label>
+          <label>Full name<input type="text" name="name" autocomplete="name" maxlength="120" required /></label>
         </div>
         <div class="home-intake__row">
-          <label>Phone number<input type="tel" autocomplete="tel" /></label>
-          <label>Email<input type="email" autocomplete="email" /></label>
+          <label>Phone number<input type="tel" name="phone" autocomplete="tel" maxlength="50" /></label>
+          <label>Email<input type="email" name="email" autocomplete="email" maxlength="160" /></label>
         </div>
-        <label>Other parties or organizations involved<input type="text" placeholder="Names help us determine whether we can speak with you" /></label>
+        <label>Other parties or organizations involved<input type="text" name="otherParties" maxlength="500" placeholder="Names help us determine whether we can speak with you" /></label>
         <div class="home-intake__row">
-          <label>General matter type<select><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal EEO or MSPB matter</option><option>State grievance or administrative matter</option><option>Licensing or credentialing issue</option><option>Other employment matter</option></select></label>
-          <label>Important date or deadline<input type="text" inputmode="numeric" placeholder="MM / DD / YYYY" /></label>
+          <label>General matter type<select name="matterType" required><option value="">Choose one</option><option>Agreement or transition</option><option>Investigation</option><option>Workplace claim or dispute</option><option>Federal EEO or MSPB matter</option><option>State grievance or administrative matter</option><option>Licensing or credentialing issue</option><option>Other employment matter</option></select></label>
+          <label>Important date or deadline<input type="text" name="deadline" maxlength="80" inputmode="numeric" placeholder="MM / DD / YYYY" /></label>
         </div>
-        <label class="home-intake__consent"><input type="checkbox" /><span>Submitting this form does not create an attorney-client relationship. Do not send confidential information until Avodah confirms it can speak with you.</span></label>
+        <label class="home-intake__consent"><input type="checkbox" name="consent" required /><span>Submitting this form does not create an attorney-client relationship. Do not send confidential information until Avodah confirms it can speak with you.</span></label>
         <button class="btn btn--aubergine" type="submit"><span class="btn__label">Submit Inquiry</span><span class="btn__chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span></button>
       </form>
     </section>
@@ -306,6 +307,6 @@
     </div>
   </footer>
 
-  <script src="js/site.js?v=20260915a"></script>
+  <script src="js/site.js?v=20260915b"></script>
 </body>
 </html>
