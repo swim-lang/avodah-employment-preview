@@ -223,10 +223,10 @@
 
   /* ---------- contact actions and future approved phone ---------- */
 
-  // Leave these empty until Rose confirms the number, destination and routing.
-  // When approved, use a full display number and a digits-only tel value.
-  var approvedPhoneDisplay = "";
-  var approvedPhoneHref = "";
+  // Approved Employment CallRail number. The routing destination is intentionally
+  // kept out of the public site and remains an internal launch record.
+  var approvedPhoneDisplay = "804-492-7303";
+  var approvedPhoneHref = "+18044927303";
   var headerContact = document.querySelector(".site-header__cta");
   if (headerContact) {
     if (headerContact.tagName === "A") headerContact.setAttribute("href", "contact.html");
@@ -244,7 +244,7 @@
       var compactNav = document.createElement("nav");
       compactNav.className = "primary-nav";
       compactNav.setAttribute("aria-label", "Primary");
-      compactNav.innerHTML = '<a href="employers.html">Employers</a><a href="executives.html">Executives</a><a href="physicians.html">Physicians</a><a href="government-employees.html">Federal and State Employees</a><a href="investigations.html">Investigations</a><a href="insights.html">Insights</a>';
+      compactNav.innerHTML = '<a href="employers.html">Employers</a><a href="executives.html">Executives</a><a href="physicians.html">Physicians</a><a href="government-employees.html">Federal and State Employees</a><a href="investigations.html">Investigations</a>';
       compactHeader.insertBefore(compactNav, compactContact);
     }
   }

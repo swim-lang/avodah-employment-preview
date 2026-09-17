@@ -859,3 +859,10 @@ body.menu-open .menu-overlay__links a { opacity: 1; transform: none; }
   height: 1px !important;
   overflow: hidden !important;
 }
+
+/* Insights are draft editorial inventory and remain unavailable until Avodah
+   completes attorney review and gives written publication approval. */
+a[href="insights.html"],
+section.insights {
+  display: none !important;
+}
