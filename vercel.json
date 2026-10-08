@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
   "functions": {
     "api/intake.js": {
       "maxDuration": 10
@@ -7,7 +8,16 @@
   },
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/insights",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/(executive-employment-agreement-review|employer-discipline-separation-decision-map|virginia-physician-contract-noncompete-2026|viewer)",
       "headers": [
         {
           "key": "X-Robots-Tag",

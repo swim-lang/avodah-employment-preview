@@ -9,6 +9,23 @@
 (function () {
   "use strict";
 
+  var GA_MEASUREMENT_ID = "G-YDHFMVWHHJ";
+
+  function trackEvent(name, parameters) {
+    if (typeof window.gtag === "function") window.gtag("event", name, parameters || {});
+  }
+
+  if (location.hostname === "avodahemployment.com" || location.hostname === "www.avodahemployment.com") {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", GA_MEASUREMENT_ID, { anonymize_ip: true });
+    var analyticsScript = document.createElement("script");
+    analyticsScript.async = true;
+    analyticsScript.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+    document.head.appendChild(analyticsScript);
+  }
+
   /* Dev flag: ?flat=1 disables scroll choreography for full-page captures */
   if (new URLSearchParams(location.search).has("flat")) {
     document.documentElement.classList.add("flat");
@@ -210,6 +227,7 @@
         })
         .then(function () {
           form.reset();
+          trackEvent("generate_lead", { lead_type: "employment_inquiry" });
           setFormNotice(form, "Thank you. Your inquiry was sent to Avodah's intake team.", false);
         })
         .catch(function (error) {
@@ -281,6 +299,13 @@
     phoneUtility.innerHTML = '<a href="tel:' + approvedPhoneHref + '" aria-label="Call Avodah Employment at ' + approvedPhoneDisplay + '">' + approvedPhoneDisplay + '</a>';
     siteHeader.insertAdjacentElement("afterend", phoneUtility);
   }
+
+  document.querySelectorAll('a[href^="tel:"]').forEach(function (link) {
+    if (!link.dataset.analyticsBound) {
+      link.dataset.analyticsBound = "true";
+      link.addEventListener("click", function () { trackEvent("click_to_call", { site_section: pageName }); });
+    }
+  });
 
   /* ---------- overlay menu (tablet / mobile) ---------- */
 

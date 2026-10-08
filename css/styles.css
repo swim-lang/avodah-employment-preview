@@ -866,3 +866,7 @@ a[href="insights.html"],
 section.insights {
   display: none !important;
 }
+a[href="insights.html"],
+section.insights {
+  display: none !important;
+}
