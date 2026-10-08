@@ -6,7 +6,7 @@ The GitHub Pages preview intentionally does not transmit or store information. P
 
 - `RESEND_API_KEY`: a sending-only Resend key restricted to the approved Employment sending domain.
 - `INTAKE_FROM`: the approved sender, for example `Avodah Employment <inquiries@subdomain.example>`.
-- `INTAKE_RECIPIENTS`: comma-separated intake recipients. Ben Johnson and Sinead O'Neill are approved initially. Do not add Josh Jewett until he confirms.
+- `INTAKE_RECIPIENTS`: `website@avodahlegal.com`, the shared Avodah website-inquiry mailbox.
 - `INTAKE_ALLOWED_ORIGINS`: comma-separated exact HTTPS origins allowed to submit the form. Do not use a wildcard.
 
 Do not commit any values. Store them as encrypted production environment variables in the approved host.
@@ -15,7 +15,7 @@ Do not commit any values. Store them as encrypted production environment variabl
 
 - Public Employment number: `804-492-7303`.
 - The public number is a CallRail number. Its private routing destination is recorded in the canonical Avodah project task and must not be displayed on the website.
-- Initial inquiry recipients: Ben Johnson and Sinead O'Neill. Do not add Josh Jewett until he confirms.
+- Inquiry recipient: `website@avodahlegal.com`. The email subject and body must identify the Employment website so the shared mailbox can route it correctly.
 - Use Anchovies' existing Andy-owned Resend workspace. Do not create another Resend account or place this project in Sean's personal workspace.
 - Do not publish or use the proposed mailbox or coworking address for a Google Business Profile. A future location must be staffed by Avodah, display permanent signage, and receive clients during its stated hours.
 - The existing verified Richmond and Norfolk firm offices may remain as firm-location context until Avodah approves a dedicated Employment location.

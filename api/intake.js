@@ -109,6 +109,7 @@ function isRateLimited(key, now = Date.now()) {
 
 function emailMarkup(payload) {
   const rows = [
+    ["Website", "Avodah Employment — avodahemployment.com"],
     ["Role", payload.role],
     ["Name", payload.name],
     ["Phone", payload.phone || payload.contact],
@@ -128,7 +129,7 @@ function emailMarkup(payload) {
   return `
     <div style="font-family:Arial,sans-serif;color:#241a24;line-height:1.5">
       <h1 style="font-size:22px;margin:0 0 16px">New Avodah Employment inquiry</h1>
-      <p style="margin:0 0 16px">A visitor submitted the short first-step inquiry form.</p>
+      <p style="margin:0 0 16px">This inquiry was submitted through the Avodah Employment website at avodahemployment.com.</p>
       <table role="presentation" style="border-collapse:collapse">${rows}</table>
       <p style="margin:20px 0 0;font-size:13px;color:#655b65">The visitor was told not to send confidential information. Submission does not create an attorney-client relationship.</p>
     </div>`;
@@ -203,7 +204,7 @@ async function handler(request, response) {
       body: JSON.stringify({
         from: process.env.INTAKE_FROM,
         to: recipients,
-        subject: `Employment inquiry: ${payload.matterType} from ${payload.name}`,
+        subject: `[Avodah Employment website] ${payload.matterType} inquiry from ${payload.name}`,
         html: emailMarkup(payload),
         ...(payload.email ? { reply_to: payload.email } : {}),
       }),
