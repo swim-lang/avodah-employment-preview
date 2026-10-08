@@ -127,7 +127,7 @@
       '<p>Share only the basic names, topic and deadline. Avodah will use those details to determine whether it can speak with you and what should happen next. Detailed facts and documents can wait.</p>',
       '</div>',
       '<form class="conversion-panel__form" data-preview-form data-intake-form>',
-      '<p class="preview-form-notice" tabindex="-1">Preview only. This form does not transmit or store information.</p>',
+      '<p class="preview-form-notice" tabindex="-1">Checking secure inquiry routing...</p>',
       '<div class="form-trap" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>',
       '<input type="hidden" name="role" value="Website visitor" />',
       '<label>Full name<input type="text" name="name" autocomplete="name" maxlength="120" required /></label>',
@@ -198,7 +198,13 @@
       event.preventDefault();
 
       if (!intakeEnabled) {
-        setFormNotice(form, "Preview only. No information was sent.", false);
+        setFormNotice(
+          form,
+          staticPreviewHost
+            ? "Preview only. No information was sent."
+            : "Online inquiries are temporarily unavailable. Please call Avodah Employment at 804-492-7303.",
+          !staticPreviewHost
+        );
         return;
       }
 
