@@ -81,6 +81,16 @@ function isConfigured() {
   );
 }
 
+function classifyResendError(error) {
+  const message = String(error && error.message ? error.message : "").toLowerCase();
+  if (message.includes("domain")) return "sender_domain";
+  if (message.includes("from") || message.includes("sender")) return "sender_address";
+  if (message.includes("reply")) return "reply_to";
+  if (message.includes("recipient")) return "recipient";
+  if (message.includes("api key") || message.includes("api_key")) return "api_key";
+  return "other";
+}
+
 function isAllowedOrigin(origin) {
   return Boolean(origin && allowedOrigins().includes(origin.replace(/\/$/, "")));
 }
@@ -216,13 +226,15 @@ async function handler(request, response) {
 
   if (!resendResponse.ok) {
     let errorName = "unknown";
+    let errorCategory = "unreadable_response";
     try {
       const resendError = await resendResponse.json();
       errorName = String(resendError.name || resendError.code || "unknown").slice(0, 80);
+      errorCategory = classifyResendError(resendError);
     } catch (_error) {
       errorName = "unreadable_response";
     }
-    console.error("Resend rejected inquiry", { status: resendResponse.status, errorName });
+    console.error("Resend rejected inquiry", { status: resendResponse.status, errorName, errorCategory });
     return json(response, 502, { ok: false, message: "Your inquiry could not be sent. Please contact Avodah directly." });
   }
 
