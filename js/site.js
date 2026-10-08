@@ -10,9 +10,18 @@
   "use strict";
 
   var GA_MEASUREMENT_ID = "G-YDHFMVWHHJ";
+  var SITE_NAME = "Avodah Employment";
 
   function trackEvent(name, parameters) {
-    if (typeof window.gtag === "function") window.gtag("event", name, parameters || {});
+    if (typeof window.gtag !== "function") return;
+    var eventParameters = {
+      site_name: SITE_NAME,
+      page_path: location.pathname,
+    };
+    Object.keys(parameters || {}).forEach(function (key) {
+      eventParameters[key] = parameters[key];
+    });
+    window.gtag("event", name, eventParameters);
   }
 
   if (location.hostname === "avodahemployment.com" || location.hostname === "www.avodahemployment.com") {
@@ -44,7 +53,9 @@
   }
 
   function revealHero() {
-    document.querySelectorAll(".reveal-load").forEach(staggeredReveal);
+    document.querySelectorAll(".reveal-load").forEach(function (el) {
+      el.classList.add("is-in");
+    });
   }
 
   var io = new IntersectionObserver(
@@ -70,15 +81,18 @@
   if (loader && ropeFill) {
     var progress = 0;
     var loaderStart = Date.now();
-    var MIN_LOADER_TIME = 250;
+    var MIN_LOADER_TIME = 120;
+    var loadingFinished = false;
 
     var finishLoading = function () {
+      if (loadingFinished) return;
+      loadingFinished = true;
       ropeFill.style.width = "100%";
       setTimeout(function () {
         loader.classList.add("is-done");
         document.body.classList.remove("is-loading");
         revealHero();
-      }, 180);
+      }, 100);
     };
 
     var trickle = setInterval(function () {
@@ -86,13 +100,16 @@
       ropeFill.style.width = progress + "%";
     }, 200);
 
-    window.addEventListener("load", function () {
+    var queueFinish = function () {
       var remaining = Math.max(MIN_LOADER_TIME - (Date.now() - loaderStart), 0);
       setTimeout(function () {
         clearInterval(trickle);
         finishLoading();
       }, remaining);
-    });
+    };
+
+    if (document.readyState !== "loading") queueFinish();
+    else document.addEventListener("DOMContentLoaded", queueFinish, { once: true });
 
     // Safety: never trap the user on the loader
     setTimeout(function () {
@@ -100,7 +117,7 @@
         clearInterval(trickle);
         finishLoading();
       }
-    }, 1500);
+    }, 600);
   } else {
     // Interior pages: reveal the hero as soon as the DOM is ready.
     if (document.readyState !== "loading") revealHero();
@@ -172,6 +189,12 @@
     return payload;
   }
 
+  function formLocation(form) {
+    if (pageName === "index.html" || form.closest("#inquiry")) return "homepage";
+    if (pageName === "contact.html") return "contact_page";
+    return "service_page";
+  }
+
   function enableIntakeForms() {
     intakeEnabled = true;
     intakeForms.forEach(function (form) {
@@ -194,6 +217,18 @@
   }
 
   intakeForms.forEach(function (form) {
+    var formStarted = false;
+    var recordFormStart = function (event) {
+      if (formStarted || (event.target && event.target.name === "website")) return;
+      formStarted = true;
+      trackEvent("form_start", {
+        form_name: "employment_inquiry",
+        form_location: formLocation(form),
+      });
+    };
+    form.addEventListener("input", recordFormStart, { passive: true });
+    form.addEventListener("change", recordFormStart, { passive: true });
+
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
@@ -233,7 +268,11 @@
         })
         .then(function () {
           form.reset();
-          trackEvent("generate_lead", { lead_type: "employment_inquiry" });
+          trackEvent("generate_lead", {
+            lead_type: "employment_inquiry",
+            form_name: "employment_inquiry",
+            form_location: formLocation(form),
+          });
           setFormNotice(form, "Thank you. Your inquiry was sent to Avodah's intake team.", false);
         })
         .catch(function (error) {
@@ -311,6 +350,14 @@
       link.dataset.analyticsBound = "true";
       link.addEventListener("click", function () { trackEvent("click_to_call", { site_section: pageName }); });
     }
+  });
+
+  document.querySelectorAll('a[href="contact.html"], a[href="#inquiry"]').forEach(function (link) {
+    link.addEventListener("click", function () {
+      trackEvent("contact_click", {
+        link_text: (link.textContent || "Contact").trim().slice(0, 80),
+      });
+    });
   });
 
   /* ---------- overlay menu (tablet / mobile) ---------- */
